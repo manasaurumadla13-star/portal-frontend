@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>HYD Startup Portal</title>
+</head>
+<body>
+  <h1>Welcome to HYD Startup Portal 🚀</h1>
+
+  <button onclick="loadData()">Load Startups</button>
+
+  <ul id="list"></ul>
+  <div id="details"></div>
+
+  <script>
+async function loadData() {
+  const res = await fetch("http://localhost:3000/api/startups");
+  const startups = await res.json();
+
+  const list = document.getElementById("list");
+  list.innerHTML = ""; // clear previous data
+
+  startups.forEach(s => {
+    const li = document.createElement("li");
+    li.textContent = s.name;
+
+    li.onclick = async () => {
+      const res = await fetch(`http://localhost:3000/api/startups/${s.id}`);
+      const data = await res.json();
+
+      li.onclick = async () => {
+  const res = await fetch(`http://localhost:3000/api/startups/${s.id}`);
+  const data = await res.json();
+
+  const details = document.getElementById("details");
+
+  details.innerHTML = `
+    <h2>${data.name}</h2>
+    <p><b>Category:</b> ${data.category}</p>
+    <p><b>Description:</b> ${data.description}</p>
+  `;
+};
+    };
+
+    list.appendChild(li);
+  });
+}
+</script>
+    }
+  </script>
+</body>
+</html>
+<style>
+  body {
+    font-family: Arial;
+    background: #f4f4f4;
+    padding: 20px;
+  }
+
+  h1 {
+    color: #333;
+  }
+
+  button {
+    padding: 10px;
+    background: blue;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+
+  ul {
+    margin-top: 20px;
+  }
+</style>
+<style>
+#details {
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  background: white;
+  width: 400px;
+}
+</style>
